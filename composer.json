@@ -1,0 +1,44 @@
+{
+    "name": "omerucel/project",
+    "type": "library",
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/http-foundation": "2.*",
+        "zendframework/zend-config": "2.*",
+        "symfony/console": "2.*",
+        "monolog/monolog": "*",
+        "doctrine/migrations": "dev-master",
+        "doctrine/dbal": "2.*",
+        "twig/twig": "1.*",
+        "swiftmailer/swiftmailer": "*",
+        "symfony/translation": "2.*"
+    },
+    "require-dev": {
+        "phacility/xhprof": "dev-master",
+        "behat/behat": "3.*",
+        "symfony/process": "2.*",
+        "phpunit/phpunit": "4.*",
+        "phpunit/dbunit": "1.*",
+        "phpunit/php-code-coverage": "2.*",
+        "symfony/yaml": "2.*"
+    },
+    "repositories": [
+        {
+            "type":"package",
+            "package": {
+                "name": "phacility/xhprof",
+                "version":"dev-master",
+                "source": {
+                    "url": "git://github.com/phacility/xhprof.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Application": "src/"
+        }
+    }
+}
