@@ -1,23 +1,19 @@
 <?php
 
-/**
- * @var \Application\Di\Di $diImpl
- */
 $environment = strtolower(getenv('APPLICATION_ENV'));
-$diImpl = include(realpath(__DIR__ . '/../') . '/configs/bootstrap.php');
-$diImpl->get('config')->logger->name = 'console';
-$diImpl->get('error_catcher')->register();
 
-$consoleApp = new \Symfony\Component\Console\Application(
-    $diImpl->get('config')->console_application->name
-);
-$consoleApp->getHelperSet()->set(new \Application\Console\DiHelper($diImpl));
+// Check app_env setting.
+if (!$environment) {
+    echo 'APPLICATION_ENV must be configured!' . PHP_EOL;
+    exit(255);
+}
 
-/**
- * Diğer komutları buradan ekleyebilirsiniz:
- *
- * $symfonyConsoleApp->add(new \Application\Console\MyCommand());
- */
+$di = require_once (realpath(__DIR__ . '/../configs/bootstrap.php'));
+$di->get('config')->logger->default_name = 'console';
+$di->get('error_catcher')->register();
+
+$symfonyConsoleApp = new \Symfony\Component\Console\Application();
+$symfonyConsoleApp->getHelperSet()->set(new \OU\Console\DiHelper($di));
 
 /**
  * Doctrine ile ilgili komutlar özel olarak ekleniyor.
@@ -25,17 +21,16 @@ $consoleApp->getHelperSet()->set(new \Application\Console\DiHelper($diImpl));
 $doctrineConn = \Doctrine\DBAL\DriverManager::getConnection(
     array(
         'driver' => 'pdo_mysql',
-        'pdo' => $diImpl->get('pdo')
+        'pdo' => $di->get('pdo')
     )
 );
-$consoleApp->getHelperSet()->set(new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($doctrineConn));
-$consoleApp->getHelperSet()->set(new \Symfony\Component\Console\Helper\DialogHelper(), 'dialog');
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand());
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand());
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand());
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand());
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand());
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand());
-$consoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand());
+$symfonyConsoleApp->getHelperSet()->set(new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($doctrineConn));
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand());
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand());
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand());
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand());
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand());
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand());
+$symfonyConsoleApp->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand());
 
-$consoleApp->run();
+$symfonyConsoleApp->run();

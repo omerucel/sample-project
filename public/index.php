@@ -4,15 +4,24 @@ $environment = strtolower(getenv('APPLICATION_ENV'));
 
 // Check app_env setting.
 if (!$environment) {
-    throw new \Exception('APPLICATION_ENV : empty');
+    echo 'Please check your project configuration!';
+    exit;
 }
 
 /**
- * @var \Application\Di\Di $diImpl
+ * @var \OU\DI $di
  */
-$diImpl = include(realpath(__DIR__ . '/../') . '/configs/bootstrap.php');
-$diImpl->get('web_error_catcher')->register();
-$diImpl->get('dispatcher')->dispatch(
-    $diImpl->get('config')->web_application->default_controller,
-    $diImpl->get('config')->web_application->routes->toArray()
-);
+$di = require_once (realpath(__DIR__ . '/../configs/bootstrap.php'));
+$di->get('error_catcher')->register();
+
+ToroHook::add('404', function ($params) use ($di) {
+    $method = $params['request_method'];
+    $controller = new \Project\WebController\NotFoundController($di);
+    $controller->{$method}();
+});
+
+Toro::serve([
+    '/' => function () use ($di) {
+        return new \Project\WebController\Homepage($di);
+    }
+]);

@@ -1,44 +1,28 @@
 {
-    "name": "omerucel/project",
+    "TWIG_ATTENTION_PLEASE": "twig 1.22.2 has a problem (filemtime error for cache feature). Do not use for a while until new version.",
+    "name": "omerucel/sample-project",
     "type": "library",
     "require": {
         "php": ">=5.5.0",
-        "symfony/http-foundation": "2.*",
         "zendframework/zend-config": "2.*",
+        "swiftmailer/swiftmailer": "5.*",
+        "symfony/http-foundation": "2.*",
+        "symfony/translation": "2.*",
         "symfony/console": "2.*",
-        "monolog/monolog": "*",
-        "doctrine/migrations": "dev-master",
-        "doctrine/dbal": "2.*",
-        "twig/twig": "1.*",
-        "swiftmailer/swiftmailer": "*",
-        "symfony/translation": "2.*"
+        "doctrine/migrations": "1.1.0",
+        "monolog/monolog": "1.*",
+        "torophp/torophp": "dev-master",
+        "omerucel/di": "dev-master",
+        "twig/twig": "1.22.1"
     },
     "require-dev": {
-        "phacility/xhprof": "dev-master",
-        "behat/behat": "3.*",
-        "symfony/process": "2.*",
-        "phpunit/phpunit": "4.*",
-        "phpunit/dbunit": "1.*",
         "phpunit/php-code-coverage": "2.*",
-        "symfony/yaml": "2.*"
+        "phpunit/phpunit": "4.*"
     },
-    "repositories": [
-        {
-            "type":"package",
-            "package": {
-                "name": "phacility/xhprof",
-                "version":"dev-master",
-                "source": {
-                    "url": "git://github.com/phacility/xhprof.git",
-                    "type": "git",
-                    "reference": "master"
-                }
-            }
-        }
-    ],
     "autoload": {
         "psr-0": {
-            "Application": "src/"
+            "Project": "src/",
+            "OU": "src/"
         }
     }
 }
