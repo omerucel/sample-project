@@ -1,5 +1,4 @@
 {
-    "TWIG_ATTENTION_PLEASE": "twig 1.22.2 has a problem (filemtime error for cache feature). Do not use for a while until new version.",
     "name": "omerucel/sample-project",
     "type": "library",
     "require": {
@@ -13,7 +12,7 @@
         "monolog/monolog": "1.*",
         "torophp/torophp": "dev-master",
         "omerucel/di": "dev-master",
-        "twig/twig": "1.22.1"
+        "twig/twig": "1.23.0"
     },
     "require-dev": {
         "phpunit/php-code-coverage": "2.*",
