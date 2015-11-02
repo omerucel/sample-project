@@ -7,6 +7,9 @@ web:
     APPLICATION_ENV: development
     DB_NAME: project
   command: sh /init.sh
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
   volumes:
     - ./web-files/init.sh:/init.sh
     - ./web-files/supervisord.conf:/supervisord.conf
