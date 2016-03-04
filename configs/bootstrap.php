@@ -78,6 +78,7 @@ $di->setShared('translator', function (\OU\DI $di) {
     $translator = new \Symfony\Component\Translation\Translator('tr_TR');
     $translator->addLoader('array', new \Symfony\Component\Translation\Loader\ArrayLoader());
     $translator->addResource('array', include($configs->base_path . '/translations/tr.php'), 'tr_TR');
+    $translator->addResource('array', include($configs->base_path . '/translations/en.php'), 'en_US');
     return $translator;
 });
 
@@ -86,6 +87,17 @@ $di->setShared('twig', function (\OU\DI $di) {
     $loader = new \Twig_Loader_Filesystem($config->twig->templates_path);
     $twig = new \Twig_Environment($loader, $config->twig->toArray());
     return $twig;
+});
+
+$di->setShared('router', function (\OU\DI $di) {
+    $router = new AltoRouter();
+    $router->map('GET', '/', '\Project\WebController\Homepage#homepage');
+    $router->map('POST|GET|PUT|DELETE', '*', '\Project\WebController\NotFoundController#notFound');
+    return $router;
+});
+
+$di->setShared('dispatcher', function (\OU\DI $di) {
+    return new \OU\Router\Dispatcher($di);
 });
 
 return $di;

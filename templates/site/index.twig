@@ -5,6 +5,9 @@
     <title>Project</title>
 </head>
 <body>
-    <strong>Hello World</strong>
+    <a href="?lang=tr_TR" style="{% if lang == 'tr_TR' %}color:#ff0000;{% else %}color:#000000{% endif %}">Türkçe</a> | <a href="?lang=en_US" style="{% if lang == 'en_US' %}color:#ff0000;{% else %}color: #000000;{% endif %}">English</a>
+    <div style="margin-top:10px;">
+        <strong>{{ message }}</strong>
+    </div>
 </body>
 </html>

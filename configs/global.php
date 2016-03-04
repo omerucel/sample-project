@@ -21,9 +21,9 @@ $configs = array(
  * PDO Service Configs
  */
 $configs['pdo'] = array();
-$configs['pdo']['dsn'] = 'mysql:host=127.0.0.1;dbname=project;charset=utf8';
-$configs['pdo']['hostname'] = '127.0.0.1';
-$configs['pdo']['database'] = 'project';
+$configs['pdo']['dsn'] = 'mysql:host=sample_mysql;dbname=sample;charset=utf8';
+$configs['pdo']['hostname'] = 'sample_mysql';
+$configs['pdo']['database'] = 'sample';
 $configs['pdo']['username'] = 'root';
 $configs['pdo']['password'] = '';
 

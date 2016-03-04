@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Translation\Translator;
 
 abstract class BaseController
 {
@@ -27,18 +28,26 @@ abstract class BaseController
          * @var ErrorCatcher $errorCatcher
          */
         $errorCatcher = $di->get('error_catcher');
-        $errorCatcher->setExceptionCallback([$this, 'onException']);
-        $errorCatcher->setFatalCallback([$this, 'onFatalError']);
+        $errorCatcher->register();
+        $errorCatcher->setExceptionCallback(array($this, 'handleException'));
+        $errorCatcher->setFatalCallback(array($this, 'handleFatalError'));
     }
 
-    public function onException(\Exception $exception)
+    /**
+     * @param $message
+     */
+    public function handleFatalError($message)
     {
-        $this->sendHtml('Exception Error');
+        $this->handleException(new \Exception($message));
     }
 
-    public function onFatalError()
+    /**
+     * @param \Exception $exception
+     */
+    public function handleException(\Exception $exception)
     {
-        $this->sendHtml('Fatal Error');
+        $this->getLogger()->error($exception);
+        $this->sendHtml('Internal Server Error', 500);
     }
 
     /**
@@ -117,6 +126,15 @@ abstract class BaseController
         foreach ($headers as $name => $value) {
             $this->getHttpResponse()->headers->set($name, $value);
         }
+    }
+
+    /**
+     * @return Translator
+     * @throws \Exception
+     */
+    protected function getTranslator()
+    {
+        return $this->getDi()->get('translator');
     }
 
     /**

@@ -5,18 +5,18 @@
         "php": ">=5.5.0",
         "zendframework/zend-config": "2.*",
         "swiftmailer/swiftmailer": "5.*",
-        "symfony/http-foundation": "2.*",
-        "symfony/translation": "2.*",
-        "symfony/console": "2.*",
-        "doctrine/migrations": "1.1.0",
+        "symfony/http-foundation": "3.*",
+        "symfony/translation": "3.*",
+        "symfony/console": "3.*",
+        "doctrine/migrations": "1.*",
         "monolog/monolog": "1.*",
-        "torophp/torophp": "dev-master",
-        "omerucel/di": "dev-master",
-        "twig/twig": "1.23.0"
+        "altorouter/altorouter": "1.*",
+        "omerucel/di": "1.*",
+        "twig/twig": "1.*"
     },
     "require-dev": {
-        "phpunit/php-code-coverage": "2.*",
-        "phpunit/phpunit": "4.*"
+        "phpunit/php-code-coverage": "3.*",
+        "phpunit/phpunit": "5.*"
     },
     "autoload": {
         "psr-0": {

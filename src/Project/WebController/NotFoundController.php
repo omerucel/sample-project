@@ -4,12 +4,12 @@ namespace Project\WebController;
 
 class NotFoundController extends BaseController
 {
-    public function __call($name, $args = [])
+    public function notFound()
     {
         $this->getLogger()->warning(
-            'Page not found : ' . strtoupper($name) . ' ' . $this->getHttpRequest()->getUri() . ' '
-            . json_encode($args)
+            'Page not found : ' . $this->getHttpRequest()->getMethod() . ' ' . $this->getHttpRequest()->getUri(),
+            array('params' => $_REQUEST)
         );
-        $this->sendPlainText('Not found');
+        $this->sendPlainText('Not found', 404);
     }
 }

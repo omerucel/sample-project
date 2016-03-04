@@ -1,23 +1,30 @@
-web:
-  image: ou/php-nginx-mysql
+sample:
+  image: ou/php-nginx
   ports:
-    - "8080:80"
-    - "3306:3306"
+    - 80
   environment:
     APPLICATION_ENV: development
-    DB_NAME: project
   command: sh /init.sh
-  dns:
-    - 8.8.8.8
-    - 8.8.4.4
+  links:
+    - sample_mysql
+    - sample_memcached
   volumes:
     - ./web-files/init.sh:/init.sh
-    - ./web-files/supervisord.conf:/supervisord.conf
-    - ./web-files/my.cnf:/etc/my.cnf
-    - ./web-files/vhost.conf:/etc/nginx/conf.d/vhost.conf
+    - ./web-files/nginx.conf:/etc/nginx/nginx.conf
     - ./web-files/www.conf:/etc/php-fpm.d/www.conf
     - ./web-files/php-development.ini:/etc/php.d/php-development.ini
     - ./../:/data/project
-    - ./../log/nginx:/var/log/nginx
-    - ./../log/php-fpm:/var/log/php-fpm
-    - /var/lib/mysql
+
+sample_mysql:
+  image: mysql
+  ports:
+    - 3306
+  environment:
+    MYSQL_DATABASE: "sample"
+    MYSQL_ROOT_PASSWORD: ""
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+sample_memcached:
+  image: memcached
+  ports:
+    - 11211
